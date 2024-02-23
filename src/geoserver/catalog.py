@@ -141,7 +141,7 @@ class Catalog(object):
 
     def setup_connection(self, retries=3, backoff_factor=0.9):
         self.client = requests.session()
-        self.client.verify = self.validate_ssl_certificate
+        #self.client.verify = self.validate_ssl_certificate
         parsed_url = urlparse(self.service_url)
         retry = Retry(
             total=retries or self.retries,
@@ -172,7 +172,7 @@ class Catalog(object):
             ).decode("ascii")
             headers["Authorization"] = f"Basic {valid_uname_pw}"
 
-        return req_method(url, headers=headers, data=data, files=files)
+        return req_method(url, headers=headers, data=data, files=files, verify=False)
 
     def get_version(self):
         """obtain the version or just 2.2.x if < 2.3.x
